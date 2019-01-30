@@ -2,6 +2,7 @@
 <html>
     <head>
     <link rel="stylesheet" href="http://cdn.webix.com/edge/webix.css" type="text/css">
+    <link rel="stylesheet" href="style.css" type="text/css">
     <script src="http://cdn.webix.com/edge/webix.js" type="text/javascript"></script>
     <script src="testdata.js" type="text/javascript" charset="utf-8"></script>
     </head>
@@ -9,10 +10,22 @@
         <script type="text/javascript" charset="utf-8">
               var header = {
                   rows:[
-                    { cols: [
-                        { type:"label",
-                        css:"webix_label webix_dark", template:"My App" },
-                        { view:"button", id:"mybutton", width: 100, value:"Profile"}
+                    {
+                      cols: [
+                        {
+                          view:"label",
+                          css: "webix_header webix_dark webix_el_label",
+                          label:"My App"
+                        },
+                        {
+                          view:"button",
+                          id:"mybutton",
+                          type:"icon",
+                          css: "webix_header webix_dark webix_icon_btn",
+                          icon:"wxi-user",
+                          width: 100,
+                          label:"Profile"
+                        }
                       ]}
                     ]
               };
@@ -21,18 +34,28 @@
                   rows:[
                       { cols: [
                         {
-                          view:"list",
-                          id:"mylist",
-                          css:"webix_dark",
-                          scroll:false,
-                          width:200,
-                          data:[ "Dashboard", "Users", "Products", "Locations" ],
-
+                          rows: [
+                            {
+                              view:"list",
+                              id:"mylist",
+                              css: ".webix_sidebar_popup_list webix_dark webix_list_item",
+                              scroll:false,
+                              width:200,
+                              data:[ "Dashboard", "Users", "Products", "Locations" ],
+                            },
+                            {
+                              view: "template",
+                              autoheight: true,
+                              css: "centered status",
+                              template:"<span class='webix_icon wxi-check'></span>Connected"
+                            }
+                          ]
                         },
                         { view:"resizer" },
                         {
                           view:"datatable",
                           id:"mydatatable",
+                          scrollX: false,
                           autoConfig:true,
                           data: small_film_set
                         },
@@ -46,7 +69,8 @@
                               { view:"text", label:"Year" },
                               { view:"text", label:"Rating" },
                               { view:"text", label:"Votes" },
-                              { cols:[
+                              { margin: 20,
+                                cols:[
                                   { view:"button", value:"Add new", type:"form" },
                                   { view:"button", value:"Clear"}
                               ]}
@@ -59,8 +83,10 @@
               var footer = {
                 rows:[
                   {
-                  autoheight: true,
-                  template:"The software is provided by https://webix.com. All rights reserved (c)"
+                    view: "template",
+                    css: "centered",
+                    height: 40,
+                    template:"The software is provided by <span><a href='https://webix.com'>https://webix.com</a></span>. All rights reserved (c)"
                   }
 
                 ]
