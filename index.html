@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+    <link rel="stylesheet" href="http://cdn.webix.com/edge/webix.css" type="text/css">
+    <script src="http://cdn.webix.com/edge/webix.js" type="text/javascript"></script>
+    <script src="testdata.js" type="text/javascript" charset="utf-8"></script>
+    </head>
+    <body>
+        <script type="text/javascript" charset="utf-8">
+              var header = {
+                  rows:[
+                    { cols: [
+                        { type:"label",
+                        css:"webix_label webix_dark", template:"My App" },
+                        { view:"button", id:"mybutton", width: 100, value:"Profile"}
+                      ]}
+                    ]
+              };
+
+              var main = {
+                  rows:[
+                      { cols: [
+                        {
+                          view:"list",
+                          id:"mylist",
+                          css:"webix_dark",
+                          scroll:false,
+                          width:200,
+                          data:[ "Dashboard", "Users", "Products", "Locations" ],
+
+                        },
+                        { view:"resizer" },
+                        {
+                          view:"datatable",
+                          id:"mydatatable",
+                          autoConfig:true,
+                          data: small_film_set
+                        },
+                        {
+                          view:"form",
+                          width: 400,
+                          autoheight: false,
+                          elements:[
+                              { template:"Edit films", type:"section"},
+                              { view:"text", label:"Title" },
+                              { view:"text", label:"Year" },
+                              { view:"text", label:"Rating" },
+                              { view:"text", label:"Votes" },
+                              { cols:[
+                                  { view:"button", value:"Add new", type:"form" },
+                                  { view:"button", value:"Clear"}
+                              ]}
+                          ]
+                        }
+                      ]}
+                  ]
+              };
+
+              var footer = {
+                rows:[
+                  {
+                  autoheight: true,
+                  template:"The software is provided by https://webix.com. All rights reserved (c)"
+                  }
+
+                ]
+              };
+
+              webix.ui({
+                 id:"app",
+                 rows:[header, main, footer]
+              });
+        </script>
+    </body>
+</html>
