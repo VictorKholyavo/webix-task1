@@ -9,24 +9,21 @@
     <body>
         <script type="text/javascript" charset="utf-8">
               var header = {
-                  rows:[
-                    {
-                      cols: [
+                  view: "toolbar",
+                  css: "webix_header webix_dark",
+                  cols:[
                         {
                           view:"label",
-                          css: "webix_header webix_dark webix_el_label",
                           label:"My App"
                         },
                         {
                           view:"button",
                           id:"mybutton",
                           type:"icon",
-                          css: "webix_header webix_dark webix_icon_btn",
                           icon:"wxi-user",
                           width: 100,
                           label:"Profile"
                         }
-                      ]}
                     ]
               };
 
