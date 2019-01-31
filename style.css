@@ -5,3 +5,8 @@
 .status {
   color: green;
 }
+
+.list {
+  background-color: #DADEE0;
+  border-collapse: collapse;
+}

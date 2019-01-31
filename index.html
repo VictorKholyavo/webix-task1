@@ -34,20 +34,22 @@
                   rows:[
                       { cols: [
                         {
+                          css: "list",
                           rows: [
                             {
-                              view:"list",
+                              css: "list",
+                              view: "list",
+                              borderless:true,
                               id:"mylist",
-                              css: ".webix_sidebar_popup_list webix_dark webix_list_item",
                               scroll:false,
                               width:200,
                               data:[ "Dashboard", "Users", "Products", "Locations" ],
                             },
                             {
-                              view: "template",
+                              view: "label",
                               autoheight: true,
                               css: "centered status",
-                              template:"<span class='webix_icon wxi-check'></span>Connected"
+                              label:"<span class='webix_icon wxi-check'></span>Connected"
                             }
                           ]
                         },
@@ -88,7 +90,6 @@
                     height: 40,
                     template:"The software is provided by <span><a href='https://webix.com'>https://webix.com</a></span>. All rights reserved (c)"
                   }
-
                 ]
               };
 
@@ -96,6 +97,7 @@
                  id:"app",
                  rows:[header, main, footer]
               });
+
         </script>
     </body>
 </html>
