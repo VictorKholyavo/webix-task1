@@ -22,8 +22,10 @@
                           type:"icon",
                           icon:"wxi-user",
                           width: 100,
-                          label:"Profile"
-                        }
+                          label:"Profile",
+                          value:"Show window",
+                          popup:"my_pop"
+                        },
                     ]
               };
 
@@ -90,9 +92,29 @@
                 ]
               };
 
+
+
               webix.ui({
                  id:"app",
                  rows:[header, main, footer]
+              });
+
+              webix.ui({
+                view:"popup",
+              	id:"my_pop",
+                  head:"Submenu",
+              	width:200,
+              	body:{
+              		view:"list",
+              		data:[
+                      {id:"1", name:"Settings"},
+              				{id:"2", name:"Log Out"},
+              		],
+              		datatype:"json",
+              		template:"#name#",
+              		autoheight:true,
+              		select:true
+                }
               });
 
         </script>
