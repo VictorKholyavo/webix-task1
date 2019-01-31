@@ -62,24 +62,77 @@
                         },
                         {
                           view:"form",
+                          id: "myform",
                           width: 400,
                           autoheight: false,
                           elements:[
                               { template:"Edit films", type:"section"},
-                              { view:"text", label:"Title" },
-                              { view:"text", label:"Year" },
-                              { view:"text", label:"Rating" },
-                              { view:"text", label:"Votes" },
+                              { view:"text", label:"Title", name:"title", invalidMessage:"Title must be filled in" },
+                              { view:"text", label:"Year", name:"year", invalidMessage:"Year should be between 1970 and 2019" },
+                              { view:"text", label:"Rating", name:"rating", invalidMessage:"Rating must be number, not a 0 and not empty" },
+                              { view:"text", label:"Votes", name:"votes", invalidMessage:"Votes must be less than 100000" },
                               { margin: 20,
                                 cols:[
-                                  { view:"button", value:"Add new", type:"form" },
-                                  { view:"button", value:"Clear"}
+                                  { view:"button",
+                                    value:"Add new",
+                                    type:"form",
+                                    click:function(){
+                                      if($$("myform").validate()){
+                                          var item = $$("myform").getValues();
+                                          $$("mydatatable").add(item);
+                                          webix.message("Correct data");
+                                      }
+                                    }
+                                  },
+                                  {
+                                    view:"button",
+                                    value:"Clear",
+                                    click:function(){
+                                      webix.confirm({
+                                        title:"Clear?",
+                                        ok:"Yes",
+                                        cancel:"No",
+                                        text:"Clear",
+                                        callback:function(result) {
+                                          if (result) {
+                                            for (var key in $$("myform").elements) {
+                                                $$("myform").elements[key].setValue("");
+                                            }
+                                            $$("myform").clearValidation();
+                                          }
+                                          else {
+                                            return
+                                          }
+                                        }
+                                      })
+                                    }
+                                  }
                               ]}
-                          ]
-                        }
-                      ]}
+                          ],
+                          rules:{
+                              title:webix.rules.isNotEmpty,
+                              year:function(value){
+                                return value>1970 && value<=2019;
+                              },
+                              votes:function(value){
+                                return value<100000;
+                              },
+                              rating:function(value){
+                                  if (!webix.rules.isNotEmpty(value) ) return false;
+                                  if (value == 0) return false;
+                                  if (isNaN(value)) return false;
+                                  return true;
+                              }
+                          },
+                          on:{
+                             onValidationError:function(key, data){
+                               webix.message({text:key+" field is incorrect", type:"error"});
+                             }
+                          }
+                      }
                   ]
-              };
+              }
+            ]};
 
               var footer = {
                 rows:[
