@@ -95,9 +95,7 @@
                                         text:"Clear",
                                         callback:function(result) {
                                           if (result) {
-                                            for (var key in $$("myform").elements) {
-                                                $$("myform").elements[key].setValue("");
-                                            }
+                                            $$("myform").clear();
                                             $$("myform").clearValidation();
                                           }
                                           else {
