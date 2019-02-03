@@ -10,3 +10,24 @@
   background-color: #DADEE0;
   border-collapse: collapse;
 }
+
+.rank {
+  background-color: #F4F5F9;
+}
+
+.myhover.webix_cell{
+  cursor: pointer;
+  background-color: #F0F8FF;
+ }
+
+ .wxi-close {
+   float: right;
+ }
+
+.fltr {
+    background-color: transparent;
+}
+
+.highlight{
+  background-color: lightblue;
+}
