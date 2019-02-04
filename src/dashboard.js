@@ -12,33 +12,52 @@ function likeCompare(value, filter){
 }
 
 var data = {
-  view:"datatable",
-  id:"mydatatable",
-  scrollX: false,
-  columns: [
-    {id:"rank", header:"", width: 50, css: "rank", sort:"int"},
-    {id:"title", header:["Title", {content:"textFilter", compare:likeCompare}], fillspace:true, sort:"string"},
-    {id:"year", header:["Released", {content:"numberFilter"}], sort: "int"},
-    {id:"votes", header:["Votes", {content:"textFilter", compare:likeCompare}], sort:sortByParam},
-    {id:"rating", header:["Rating", {content:"textFilter", compare:likeCompare}], sort:"text"},
-    {id:"del", header:"", template:"{common.trashIcon()}"}
-  ],
-  select: true,
-  hover: "myhover",
-  datatype:"json",
-  url: "data/data.js",
-  on: {
-    onAfterSelect: function(id){
-      const item = $$("mydatatable").getItem(id);
-      $$("myform").setValues(item);
+  rows: [
+    {
+      view: "tabbar",
+      id: "mytabbar",
+      options: [
+        {id: 1, value: "All"},
+        {id: 2, value: "Old"},
+        {id: 3, value: "Modern"},
+        {id: 4, value: "New"},
+      ],
+      on: {
+        onChange: function(){
+          $$("mydatatable").filterByAll();
+        }
+      }
+    },
+    {
+      view:"datatable",
+      id:"mydatatable",
+      scrollX: false,
+      columns: [
+        {id:"rank", header:"", width: 50, css: "rank", sort:"int"},
+        {id:"title", header:["Title", {content:"textFilter", compare:likeCompare}], fillspace:true, sort:"string"},
+        {id:"categoryId", header:["Category", {content:"selectFilter"}], collection: "data/categories.js"},
+        {id:"year", header:"Released"},
+        {id:"votes", header:["Votes", {content:"textFilter", compare:likeCompare}], sort:sortByParam},
+        {id:"rating", header:["Rating", {content:"textFilter", compare:likeCompare}], sort:"text"},
+        {id:"del", header:"", template:"{common.trashIcon()}"}
+      ],
+      select: true,
+      hover: "myhover",
+      datatype:"json",
+      url: "data/data.js",
+      scheme: {
+        $init: function(obj){
+          obj.categoryId = Math.floor(Math.random() * 4) + 1;
+        },
+      },
+      onClick: {
+        "wxi-trash":function(e, id){
+          this.remove(id);
+          return false;
+        }
+      }
     }
-  },
-  onClick: {
-    "wxi-trash":function(e, id){
-      this.remove(id);
-      return false;
-    }
-  }
+  ]
 };
 
 var form = {
@@ -58,19 +77,12 @@ var form = {
                 value:"Add new",
                 type:"form",
                 click:function(){
-                  //if($$("myform").validate()){
-                      //var item = $$("myform").getValues();
-                      //$$("mydatatable").add(item);
-
-                      const values = $$("myform").getValues();
-                    	if (values.id && $$("myform").validate()) {
-                    		    $$("mydatatable").updateItem(values.id,values);
-                      }
-                    	else if($$("myform").validate()){
-                    		$$("mydatatable").add(values);
-                        webix.message("Correct data");
-                      }
-                  //}
+                    var form = $$('myform');
+            				if(form.isDirty()){
+            					if(!form.validate())
+            					return false;
+            				form.save();
+                  }
                 }
               },
               {
@@ -86,9 +98,6 @@ var form = {
                       if (result) {
                         $$("myform").clear();
                         $$("myform").clearValidation();
-                      }
-                      else {
-                        return
                       }
                     }
                   })

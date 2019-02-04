@@ -5,7 +5,7 @@ function sortTitle(){
 function sortTitleDesc() {
   $$("users").sort("#name#", "desc");
 };
-
+var numb = 13;
 var data2 = {
   rows: [
     {
@@ -24,7 +24,7 @@ var data2 = {
           width: 100,
           label:"Sort asc",
           type: "form",
-          click:sortTitle,
+          click: sortTitle,
         },
         {
           view: "button",
@@ -33,16 +33,32 @@ var data2 = {
           label:"Sort desc",
           type: "form",
           click: sortTitleDesc
+        },
+        {
+          view: "button",
+          id: "add_new",
+          css:"add_new",
+          width: 100,
+          label:"Add new",
+          type: "form",
+          click:function(){
+              var user = {"id":numb,"name":"Pirs Brosnan", "age":65, "country":"USA"};
+              $$("users").add(user);
+              numb = numb + 1;
+              console.log(numb);
+          }
         }
       ]
     },
     {
-      view: "list",
+      view: "editlist",
       id:"users",
       borderless: true,
       select: true,
-      fillspace:true,
       template:"#name# from #country# <span class='webix_icon wxi-close'></span>",
+      editable: true,
+      editor:"text",
+      editValue:"name",
       datatype:"json",
       url: "data/users.js",
       onClick: {
@@ -51,36 +67,32 @@ var data2 = {
           return false;
         }
       },
-      scheme:{
-        $change:function(item){
-          if (item.id <= 5) {
-            item.$css = "highlight";
-          }
-        }
-      }
-    }
-  ],
+      rules:{
+          name:webix.rules.isNotEmpty
+      },
 
+    },
+  ],
 };
 
 
 var chart = {
-  view: "chart",
-  type: "bar",
-  value: "#age#",
-  xAxis: {
-    template:"#age#"
-  },
-  yAxis: {
-    start: 21,
-    end: 60,
-    step: 10,
-    template: function(obj) {
-      return (obj%20?"":obj)
-    }
-  },
-  datatype: "json",
-  url: "data/users.js"
+  rows: [
+    {
+      view: "chart",
+      id:"mychart",
+      type: "bar",
+      value: "#name#",
+      xAxis: {
+        template:"#country#"
+      },
+      yAxis: {
+        start: 0,
+        end: 10,
+        step: 2,
+      }
+    },
+  ]
 };
 
 export {chart, data2};

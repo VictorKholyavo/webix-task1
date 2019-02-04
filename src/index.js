@@ -75,6 +75,10 @@ var footer = {
   ]
 };
 
+webix.protoUI({
+  name:"editlist"
+}, webix.rules,  webix.EditAbility, webix.ui.list);
+
 webix.ui({
    id:"app",
    rows:[
@@ -102,11 +106,45 @@ webix.ui({
   }
 });
 
+
+
+
+$$("mydatatable").registerFilter(
+  $$("mytabbar"),
+  {
+    columnId: "year",
+    compare:function(value, filter, item) {
+          if (filter == 1) return value;
+          else if (filter == 2) return value < 1980;
+          else if (filter == 3) return value > 2010;
+          else if (filter == 4) return value > 2016;
+  }},
+  {
+    getValue:function(node){
+      return node.getValue();
+    },
+    setValue:function(node, value){
+      node.setValue(value);
+    }
+  }
+);
+
+$$("myform").bind($$("mydatatable"))
+
 $$("list_input").attachEvent("onTimedKeyPress",function(){
     var value = this.getValue().toLowerCase();
     $$("users").filter(function(obj){
         return obj.name.toLowerCase().indexOf(value)==0;
     })
+});
+
+$$("mychart").sync($$("users"), function(data){
+  this.group({
+      by:"country",
+      map:{
+        name:[ "name", "count" ]
+      }
+  });
 });
 
 $$("products").waitData.then(function(){
