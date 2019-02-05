@@ -1,3 +1,8 @@
+var collectionForUsers = new webix.DataCollection({
+  datatype: "json",
+  url:"data/users.js"
+});
+
 function sortTitle(){
   $$("users").sort("#name#", "asc");
 };
@@ -5,6 +10,7 @@ function sortTitle(){
 function sortTitleDesc() {
   $$("users").sort("#name#", "desc");
 };
+
 var numb = 13;
 var data2 = {
   rows: [
@@ -43,9 +49,8 @@ var data2 = {
           type: "form",
           click:function(){
               var user = {"id":numb,"name":"Pirs Brosnan", "age":65, "country":"USA"};
-              $$("users").add(user);
+              collectionForUsers.add(user);
               numb = numb + 1;
-              console.log(numb);
           }
         }
       ]
@@ -59,8 +64,7 @@ var data2 = {
       editable: true,
       editor:"text",
       editValue:"name",
-      datatype:"json",
-      url: "data/users.js",
+      data: collectionForUsers,
       onClick: {
         'wxi-close':function(e ,id) {
           this.remove(id);
@@ -90,7 +94,8 @@ var chart = {
         start: 0,
         end: 10,
         step: 2,
-      }
+      },
+      data: collectionForUsers
     },
   ]
 };

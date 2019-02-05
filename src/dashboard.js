@@ -1,9 +1,7 @@
-function sortByParam(a,b) {
-  var re = /,/gi;
-  a = +a.votes.replace(re, '.');
-  b = +b.votes.replace(re, '.');
-  return a>b?1:(a<b?-1:0);
-};
+var collectionForCategories = new webix.DataCollection({
+  datatype: "json",
+  url:"data/categories.js"
+});
 
 function likeCompare(value, filter){
   	value = value.toString().toLowerCase();
@@ -35,10 +33,10 @@ var data = {
       columns: [
         {id:"rank", header:"", width: 50, css: "rank", sort:"int"},
         {id:"title", header:["Title", {content:"textFilter", compare:likeCompare}], fillspace:true, sort:"string"},
-        {id:"categoryId", header:["Category", {content:"selectFilter"}], collection: "data/categories.js"},
+        {id:"categoryId", header:["Category", {content:"selectFilter"}], collection: collectionForCategories},
         {id:"year", header:"Released"},
-        {id:"votes", header:["Votes", {content:"textFilter", compare:likeCompare}], sort:sortByParam},
-        {id:"rating", header:["Rating", {content:"textFilter", compare:likeCompare}], sort:"text"},
+        {id:"votes", header:["Votes", {content:"textFilter", compare:likeCompare}], sort:"int"},
+        {id:"rating", header:["Rating", {content:"textFilter", compare:likeCompare}], sort:"int"},
         {id:"del", header:"", template:"{common.trashIcon()}"}
       ],
       select: true,
@@ -48,6 +46,9 @@ var data = {
       scheme: {
         $init: function(obj){
           obj.categoryId = Math.floor(Math.random() * 4) + 1;
+          var re = /,/gi;
+          obj.votes = obj.votes.replace(re, '.');
+          obj.rating = obj.rating.replace(re, '.');
         },
       },
       onClick: {
@@ -71,7 +72,12 @@ var form = {
           { view:"text", label:"Year", name:"year", invalidMessage:"Year should be between 1970 and 2019" },
           { view:"text", label:"Rating", name:"rating", invalidMessage:"Rating must be number, not a 0 and not empty" },
           { view:"text", label:"Votes", name:"votes", invalidMessage:"Votes must be less than 100000" },
-          { margin: 20,
+          {
+            view:"combo", width:400, label: "Category", labelWidth:220, name:"categoryId",
+            options: collectionForCategories,
+          },
+          {
+            margin: 20,
             cols:[
               { view:"button",
                 value:"Add new",
@@ -128,4 +134,4 @@ var form = {
 
 };
 
-export {data, form};
+export {data, form, collectionForCategories};

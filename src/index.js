@@ -1,6 +1,7 @@
-import {data, form} from './dashboard.js';
-import {data2, chart} from './users.js'
-import {products} from './products.js'
+import {data, form, collectionForCategories} from "./dashboard.js";
+import {data2, chart} from "./users.js"
+import {products} from "./products.js"
+import {admin, form2} from "./admin.js"
 
 var header = {
     view: "toolbar",
@@ -58,9 +59,9 @@ var side = {
 var main = {
   cells: [
     {id:"Dashboard", cols:[data, form]},
-    {id:"Users", rows:[data2,chart]},
+    {id:"Users", rows:[data2, chart]},
     {id:"Products", rows:[products]},
-    {id:"Admin", template:"Admin View"}
+    {id:"Admin", cols:[admin, form2]}
   ]
 };
 
@@ -74,6 +75,9 @@ var footer = {
     }
   ]
 };
+
+
+
 
 webix.protoUI({
   name:"editlist"
@@ -106,9 +110,6 @@ webix.ui({
   }
 });
 
-
-
-
 $$("mydatatable").registerFilter(
   $$("mytabbar"),
   {
@@ -129,7 +130,11 @@ $$("mydatatable").registerFilter(
   }
 );
 
+$$("admin").sync(collectionForCategories);
+
 $$("myform").bind($$("mydatatable"))
+
+$$("formForCategory").bind($$("admin"))
 
 $$("list_input").attachEvent("onTimedKeyPress",function(){
     var value = this.getValue().toLowerCase();
