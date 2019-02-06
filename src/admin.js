@@ -1,3 +1,7 @@
+import {collectionForCategories} from "./dashboard.js"
+
+var id = 5;
+
 var admin = {
   cols: [
     {
@@ -14,7 +18,7 @@ var admin = {
       editable: true,
       onClick: {
         "wxi-trash":function(e, id){
-          this.remove(id);
+          collectionForCategories.remove(id);
           return false;
         }
       }
@@ -30,6 +34,7 @@ var form2 = {
       autoheight: false,
       elements:[
           { template:"Add new category", type:"section"},
+          { view:"text", label:"id", name:"id", invalidMessage:"Must be mber" },
           { view:"text", label:"Category", name:"value", invalidMessage:"Must be text" },
           { margin: 20,
             cols:[
@@ -37,11 +42,9 @@ var form2 = {
                 value:"Add new",
                 type:"form",
                 click:function(){
-                    var form = $$('formForCategory');
-            				if(form.isDirty()){
-            					if(!form.validate())
-            					return false;
-            				form.save();
+                  var form2 = $$('formForCategory');
+                    if(form2.isDirty()){
+                    form2.save();
                   }
                 }
               },

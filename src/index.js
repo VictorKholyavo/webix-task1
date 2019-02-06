@@ -135,6 +135,7 @@ $$("admin").sync(collectionForCategories);
 $$("myform").bind($$("mydatatable"))
 
 $$("formForCategory").bind($$("admin"))
+$$("formForCategory").bind(collectionForCategories);
 
 $$("list_input").attachEvent("onTimedKeyPress",function(){
     var value = this.getValue().toLowerCase();

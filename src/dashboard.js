@@ -35,8 +35,8 @@ var data = {
         {id:"title", header:["Title", {content:"textFilter", compare:likeCompare}], fillspace:true, sort:"string"},
         {id:"categoryId", header:["Category", {content:"selectFilter"}], collection: collectionForCategories},
         {id:"year", header:"Released"},
-        {id:"votes", header:["Votes", {content:"textFilter", compare:likeCompare}], sort:"int"},
-        {id:"rating", header:["Rating", {content:"textFilter", compare:likeCompare}], sort:"int"},
+        {id:"votes", header:["Votes", {content:"numberFilter"}], sort:"int"},
+        {id:"rating", header:["Rating", {content:"numberFilter"}], sort:"int"},
         {id:"del", header:"", template:"{common.trashIcon()}"}
       ],
       select: true,

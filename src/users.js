@@ -67,7 +67,7 @@ var data2 = {
       data: collectionForUsers,
       onClick: {
         'wxi-close':function(e ,id) {
-          this.remove(id);
+          collectionForUsers.remove(id);
           return false;
         }
       },
@@ -94,8 +94,7 @@ var chart = {
         start: 0,
         end: 10,
         step: 2,
-      },
-      data: collectionForUsers
+      }
     },
   ]
 };
